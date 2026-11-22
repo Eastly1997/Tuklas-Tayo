@@ -1,0 +1,46 @@
+# Gradle/Kotlin caches and output in every module
+.gradle/
+.kotlin/
+**/build/
+.externalNativeBuild/
+.cxx/
+captures/
+*.apk
+*.aab
+*.dex
+*.hprof
+
+# Local SDK and IDE/user state
+local.properties
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Temporary files and logs
+*.log
+*.tmp
+*.temp
+*.bak
+*~
+
+# Local backend, environment and signing credentials
+**/google-services.json
+.env
+.env.*
+!.env.example
+keystore.properties
+signing.properties
+secrets.properties
+credentials.json
+**/service-account*.json
+**/*serviceAccount*.json
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+
+# Do not ignore Gradle wrapper JAR/scripts, sources, resources, tests,
+# build scripts, version catalog, docs, AGENTS.md or .agents/skills/.

@@ -1,0 +1,132 @@
+TuklasTayo — Milestone 02 completion report
+HISTORICAL RECORD: the separate Gallery launcher/process below has been replaced by the in-app Debug tab. See README.md for the current single-Activity navigation and validation guidance.
+Date: November 22, 2026 (Asia/Manila)
+Status: implementation delivered; debug/visual/device validation remains blocked or manual.
+
+IMPLEMENTATION
+Four shared, stateless production component families live only in core:designsystem:
+- TuklasTayoButton: filled, filled tonal, outlined, elevated, text; enabled/disabled, RowScope slot.
+- TuklasTayoCard: filled/elevated/outlined; static or clickable; enabled applies to clickable cards.
+- TuklasTayoChip: assist, suggestion, filter and input. Only filter/input accept selection state.
+- TuklasTayoTextField: filled/outlined, hoisted editing, labels/placeholders, error/supporting text,
+  disabled/read-only, icon slots and keyboard options/actions.
+Material 3 owns their themed colors, typography, shape, semantics and standard interactions.
+Approved theme/token files were retained. No restaurant-specific UI was implemented.
+
+Existing Discover Explore/Retry buttons and the shared placeholder Back button now consume
+TuklasTayoButton, with unchanged labels and callbacks. The theme showcase and new previews
+consume the same production functions. No component styling was copied into feature/gallery code.
+
+DEBUG GALLERY
+Separate launcher label: TuklasTayo UI Kit.
+Activity: com.tuklastayo.app.designgallery.DesignGalleryActivity.
+All Gallery code/resources and its manifest overlay are under app/src/debug.
+Sections: 36 live colors/hex values; 15 typography roles; shapes/spacing; button/card/chip/field
+variants and states; clearly labeled direct Material references (checkbox/radio/switch/progress).
+Local saveable Compose state handles Light/Dark/System, selection, editing and reference controls.
+Buttons/cards show snackbars; fields have real user-triggered focus examples. Gallery window icon
+appearance follows the chosen mode. No ViewModels, navigation, domain/data or Firebase/Koin imports
+are used by Gallery UI.
+
+Gallery declares :designgallery as a separate process. DebugTuklasTayoApplication returns before
+app graph startup for that process; normal debug starts the same initializeAppGraph function as
+release. This prevents Gallery startup from requiring the product graph. Runtime process/startup
+behavior still needs the manual launch check; it was not exercised on a device.
+
+PREVIEWS AND TESTS
+Added two full-Gallery Light/Dark previews and eight component-family Light/Dark preview
+annotations, plus migrated the existing two theme previews to consume shared components.
+Added four Compose instrumentation tests for variant callbacks/disabled semantics, static vs
+interactive cards, chip selection and field entry/error/disabled semantics. These tests were
+not successfully compiled or executed because the debug dependency graph is blocked offline.
+They are not included in the 20 passing unit tests.
+
+ACTUALLY EXECUTED VERIFICATION
+Successful (exit 0), offline and without environment-variable changes:
+& ./.gradle/milestone02/run-gradle.ps1 -Tasks ':core:designsystem:compileReleaseKotlin',':core:domain:test',':core:data-mock:test',':core:data-firebase:testDebugUnitTest',':core:designsystem:testReleaseUnitTest',':feature:discover:testReleaseUnitTest',':app:assembleRelease','-x',':app:lintVitalRelease' -LogName release-and-tests.log
+
+20 unit tests freshly executed: domain 8, mock 1, DTO mapping 3, theme contrast 3, Discover
+ViewModel 5. Zero failures/errors. Release unit variants were enabled by an ignored local
+verification init script, not by a permanent variant change. Release APK packaging excluded
+release lint explicitly; this is not a full release-lint pass.
+
+Unsigned release APK: app/build/outputs/apk/release/app-release-unsigned.apk.
+DEX inspection found no Gallery Activity/Application/theme-mode or debug-preview classes.
+Merged release manifest inspection confirmed only the original MainActivity launcher and
+original release Application, with no Gallery configuration.
+
+Static checks passed: unique production function for each family; Gallery/feature consumers
+use shared components; Gallery has no business-layer imports or copied palette constants;
+all 36 color roles and 15 typography roles are demonstrated; 10 new preview declarations exist.
+Debug source-manifest checks passed for launcher label, process and graph-startup guard.
+Existing source-based theme checks also passed: requested colors preserved, 36 explicit roles,
+56 text pairs >=4.5:1 and four control-outline pairs >=3:1.
+
+BLOCKED CHECKS (NOT PASSES)
+& ./.gradle/milestone02/run-gradle.ps1 -Tasks ':app:assembleDebug' -LogName debug-build.log
+Exit 1: uncached androidx.compose.ui:ui-tooling-preview:1.9.0 and ui-tooling:1.9.0.
+Gallery debug sources/previews and instrumentation tests remain compilation-unverified.
+
+& ./.gradle/milestone02/run-gradle.ps1 -Tasks ':app:assembleRelease' -LogName release-full.log
+Exit 1 at core:designsystem:lintVitalAnalyzeRelease: the existing Coil graph requires uncached
+org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose-desktop:2.8.4.
+No lint rule was suppressed or disabled in tracked build files.
+
+No device tests, visual preview rendering, GUI operations, launcher interaction or keyboard/
+TalkBack checks were performed. No downloads, software installations, environment-variable or
+system-setting changes, commits, pushes or deployments were performed. Existing cached dependencies
+were copied into the ignored project-local Gradle cache; all generated validation output stays
+inside this project. The helper uses Java system properties, not environment-variable changes.
+
+MANUAL ACTIONS
+1. Resolve the missing dependencies yourself with your authorized Gradle setup (JDK 21), then run:
+   .\gradlew.bat :core:designsystem:compileDebugKotlin :app:assembleDebug :app:assembleRelease test
+2. Install/run debug yourself and open TuklasTayo UI Kit in the app drawer, or select the Gallery
+   Activity as the specified launch Activity in your own Android Studio run configuration.
+3. Toggle Light/Dark/System, scroll all sections, click enabled/disabled demonstrations, toggle
+   chips/reference controls, type in fields, trigger both focus examples and check snackbars.
+   Check enlarged font settings, TalkBack, touch targets and system-bar icon contrast.
+4. Inspect the Gallery and component Light/Dark previews manually.
+5. Open the original TuklasTayo launcher and verify its existing navigation/actions.
+6. On your own prepared/authorized device, run:
+   .\gradlew.bat :core:designsystem:connectedDebugAndroidTest :app:connectedDebugAndroidTest
+
+AGENTS.md now permanently enforces the single production component source, shared feature/Gallery
+consumers, preview/state demonstrations and consumer compilation checks. Existing architecture and
+no-PC-control restrictions remain, with explicit no-environment-variable changes and debug-only
+Activity/local-state exceptions. README contains the APIs, structure, process isolation, launch,
+manual validation and exact verification limitations.
+
+CREATED SOURCE FILES
+<project>\app\src\debug\AndroidManifest.xml
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\DebugTuklasTayoApplication.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\DesignGalleryActivity.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\DesignGalleryScreen.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\section\ButtonGallerySection.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\section\CardGallerySection.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\section\ChipGallerySection.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\section\ColorGallerySection.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\section\MaterialReferenceSection.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\section\ShapeGallerySection.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\section\TextFieldGallerySection.kt
+<project>\app\src\debug\kotlin\com\tuklastayo\app\designgallery\section\TypographyGallerySection.kt
+<project>\app\src\debug\res\values\strings.xml
+<project>\core\designsystem\src\androidTest\kotlin\com\tuklastayo\core\designsystem\component\SharedComponentsTest.kt
+<project>\core\designsystem\src\debug\kotlin\com\tuklastayo\core\designsystem\component\ComponentPreviews.kt
+<project>\core\designsystem\src\main\kotlin\com\tuklastayo\core\designsystem\component\TuklasTayoButton.kt
+<project>\core\designsystem\src\main\kotlin\com\tuklastayo\core\designsystem\component\TuklasTayoCard.kt
+<project>\core\designsystem\src\main\kotlin\com\tuklastayo\core\designsystem\component\TuklasTayoChip.kt
+<project>\core\designsystem\src\main\kotlin\com\tuklastayo\core\designsystem\component\TuklasTayoTextField.kt
+
+MODIFIED SOURCE/DOCUMENTATION FILES
+<project>\AGENTS.md
+<project>\README.md
+<project>\app\build.gradle.kts
+<project>\app\src\main\kotlin\com\tuklastayo\app\TuklasTayoApplication.kt
+<project>\core\designsystem\build.gradle.kts
+<project>\core\designsystem\src\main\kotlin\com\tuklastayo\core\designsystem\PlaceholderScreen.kt
+<project>\core\designsystem\src\debug\kotlin\com\tuklastayo\core\designsystem\theme\ThemeShowcase.kt
+<project>\feature\discover\src\main\kotlin\com\tuklastayo\feature\discover\DiscoverRoute.kt
+
+This report: <project>\MILESTONE_02_REPORT.txt
+Ignored project-local helpers/logs: .gradle/milestone02/ (not production code).
