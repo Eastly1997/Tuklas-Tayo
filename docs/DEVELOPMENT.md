@@ -3,25 +3,27 @@
 ## Naming and organization
 
 Root package/application ID: com.lakbay.tuklas.
-App namespace: com.lakbay.tuklas.app. Core/feature packages preserve their suffixes.
+App namespace: com.lakbay.tuklas.app. App functionality uses domain, data and feature packages under com.lakbay.tuklas.
 Use Tuklas for branded code (TuklasApplication, TuklasTheme, TuklasButton);
 TuklasTayo remains the product name. Do not prefix ordinary domain/feature types.
 Types/composables use PascalCase, functions/properties camelCase. Match directories
-to package declarations in every source set; preserve Gradle module names.
+to package declarations in every source set; keep only :app and :core:designsystem.
 
 Feature layout, created only as needed:
 
 ```text
-di/FeatureModule.kt
-presentation/
-  FeatureRoute.kt
-  FeatureScreen.kt
-  FeatureViewModel.kt
-  contract/     # UiState, Intent, optional Effect
-  model/        # display-only UI models
-  mapper/       # domain -> presentation mapping
-  component/    # feature-specific composables
-  preview/      # dedicated previews and larger offline fixtures
+feature/discover/explore/
+  ExploreRoute.kt
+  ExploreScreen.kt
+  ExploreViewModel.kt
+  ExploreUiState.kt
+  ExploreIntent.kt
+  component/    # screen-specific composables
+  preview/      # debug sources only
+feature/discover/search/   # same screen-level organization
+feature/discover/shared/   # genuinely shared UI, filtering and mapping
+feature/saved/
+feature/place_detail/
 ```
 
 One primary responsibility per Kotlin file. Small private helpers can stay with
@@ -88,3 +90,8 @@ Use the existing tuklastayo-feature, tuklastayo-data, tuklastayo-code-review and
 tuklastayo-testing workflows for their documented scopes. Names are preserved
 invocation identifiers, not branded Kotlin code. AGENTS.md and user authorization
 govern all skills; do not create duplicate workflows.
+Feature packages own presentation; application-level domain and data packages preserve Presentation -> Domain <- Data. ViewModels call use cases. UI models are optional and justified by display transformations. The independent design system is the shared styling source; Gallery consumes production components.
+
+Navigation follows MainActivity -> TuklasApp -> TuklasNavHost -> FeatureRoute -> FeatureScreen. TuklasApp owns the shared Scaffold, toolbar, bottom navigation and insets, using one NavController. TuklasNavHost owns destination declarations and feature navigation callbacks; TuklasDestination centralizes production routes (the debug route stays debug-only). Discover displays feature.discover.explore.ExploreRoute. No separate legacy Explore feature or destination remains. Preserve Route/Screen separation, tab state restoration, Search keyboard/back handling, debug exclusion from release, and shared production components in :core:designsystem. Do not introduce feature Gradle modules or generic navigation managers.
+
+Feature package convention: :app owns feature packages with no presentation/ level. Keep Route, Screen, ViewModel, UiState and Intent together; optional Effect, component/, preview/, model/ or mapper/ organization must be justified. Domain and data stay application-level. Only code used by multiple screen flows belongs in feature/discover/shared. Preserve previewability, use-case boundaries, Koin composition, centralized navigation and design-system reuse. Validate once with :app:assembleDebug; target tests to changed business logic, avoiding broad suites, lint, instrumentation and release builds unless explicitly requested.

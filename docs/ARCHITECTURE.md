@@ -1,66 +1,30 @@
 # Architecture
 
-## Boundaries and dependency direction
+Only :app and :core:designsystem are active Gradle modules. Application functionality is organized by Kotlin packages under com.lakbay.tuklas; module boundaries are not required for each feature.
 
-App is the composition root: TuklasApplication starts Koin; MainActivity applies
-TuklasTheme and renders TuklasApp with one NavController. App owns navigation and
-selects mock or optional Firestore bindings.
+## Ownership and dependency direction
 
-- core:domain: pure Kotlin Place/PlaceCategory, PlaceRepository and concrete use
-  cases. No Android, Compose, backend SDK, network client or DI dependencies.
-- core:data-mock and core:data-firebase: implement PlaceRepository and depend on
-  domain. DTO/backend conversion stays in the data implementation. The mock
-  repository accepts a fixture list; app debug sources supply fictional places,
-  release supplies none. Core mock test fixtures are test-only.
-- core:designsystem: reusable general-purpose Compose components, Material 3
-  theme/tokens and Coil image handling. No shop/business models.
-- feature modules: depend on domain and designsystem, never concrete data modules.
-  Discover owns shop-specific UI models, mapping and card/section components.
-- app: assembles domain/data and feature-owned DI modules; contains Saved until an
-  actual feature justifies a module. Existing module names remain unchanged.
+- domain/model, domain/repository and domain/usecase contain business models, repository interfaces and concrete use cases. They use pure Kotlin without Android, Compose, Firebase, Koin or data imports.
+- data/dto and data/repository own backend models, conversion and Firebase/mock repository implementations. Firebase remains replaceable behind PlaceRepository. Debug/test sources inject fictional fixtures; release supplies an empty mock list.
+- feature/discover/explore owns the Discover landing screen (ExploreRoute/Screen/ViewModel), contracts and screen-specific components. Search has its own feature/discover/search flow. Genuinely reused cards, filtering and display mapping live in feature/discover/shared.
+- feature/saved and feature/place_detail retain placeholders.
+- di/AppModules.kt registers repositories, use cases and ViewModels and selects the optional Firebase backend. navigation/TuklasApp.kt owns the single NavController and shared Scaffold; TuklasNavHost.kt owns destinations and feature navigation callbacks. MainActivity and TuklasApplication live at the root package. Generated R/BuildConfig remain in the unchanged com.lakbay.tuklas.app namespace; application ID remains com.lakbay.tuklas.
+- core:designsystem independently owns reusable Material 3 theme/tokens, components and Coil image UI. It has no business-model dependency.
 
-A future REST implementation replaces the data binding behind PlaceRepository;
-use cases/ViewModels remain backend-independent. SDK types never enter domain
-or presentation contracts.
+Preserve Presentation -> Domain <- Data. ViewModels use constructor-injected use cases, never concrete repositories or SDK clients. Domain models may be used directly in presentation. FeaturedShopUiModel and its mapper remain because they format category labels, normalize optional fields and provide preview image-resource overrides; UI models are optional, not required duplicates of domain data.
 
-## Runtime and rendering
+## Rendering and state
 
-Route -> Screen -> Components is the UI boundary.
+Route -> Screen -> Components -> Preview remains mandatory. Routes resolve Koin ViewModels, collect StateFlow with lifecycle awareness and wire navigation/intent callbacks. Screens accept immutable state and callbacks without runtime lookup, repositories or flow collection. MVI contracts, ViewModels, rendering and runtime integration have separate responsibilities.
 
-DiscoverRoute resolves DiscoverViewModel through Koin, collects StateFlow using
-collectAsStateWithLifecycle and passes intents/navigation callbacks.
-DiscoverScreen renders immutable UiState and callbacks without runtime lookup,
-repository work or flow collection. Local UI-only state, such as scroll state,
-is allowed. Navigation callbacks reach app; NavController never enters a ViewModel.
+Discover opens ExploreRoute while retaining its Discover tab label. The Explore screen keeps category filtering, announcements and carousel state. Dedicated Search uses the same local matching and use case, preserves query through SavedStateHandle, and renders results above a bottom IME-aware input. Existing loading, error, retry and cancellation behavior is unchanged. No new algorithms or features were introduced.
 
-DiscoverViewModel orchestrates GetFeaturedPlacesUseCase and exposes a read-only
-StateFlow with Loading, Content (including empty) and Error. Retry ignores active
-duplicate loads; errors are retryable and CancellationException propagates.
-Search filters loaded data locally and suppresses featured cards until cleared.
-No one-time effect or generic MVI base is needed.
+## Variants, previews and reuse
 
-Domain-to-presentation transformations live in presentation/mapper; display-only
-models live in presentation/model. UiState/Intent live in presentation/contract.
-Optional structured city is mapped without address parsing; full address remains
-in domain data. Gallery/previews consume the actual production screen/components.
+Debug navigation registers Discover, Saved and Debug; release hooks register only Discover and Saved and no Gallery destination. Gallery, previews, sample photos and development fixtures remain in debug sources. Light/Dark/System Gallery state is local Compose state. Gallery and previews consume production screens/components and the shared Tuklas theme, without requiring Koin, Firebase or application initialization.
 
-Explore, Place Detail and Saved currently render placeholders from explicit
-display state. They have no artificial ViewModel/use-case/repository layers.
-Their existing public route entry points are preserved.
+One Activity and application-level navigation remain mandatory. Shared styling has one production implementation in core:designsystem. Feature-specific business UI stays in app feature packages. No PC/GUI control, external-service access, staging, commits or pushes are authorized by this architecture.
 
-## Design system and development tooling
+Navigation follows MainActivity -> TuklasApp -> TuklasNavHost -> FeatureRoute -> FeatureScreen. TuklasApp owns the shared Scaffold, toolbar, bottom navigation and insets, using one NavController. TuklasNavHost owns destination declarations and feature navigation callbacks; TuklasDestination centralizes production routes (the debug route stays debug-only). Discover displays feature.discover.explore.ExploreRoute. No separate legacy Explore feature or destination remains. Preserve Route/Screen separation, tab state restoration, Search keyboard/back handling, debug exclusion from release, and shared production components in :core:designsystem. Do not introduce feature Gradle modules or generic navigation managers.
 
-Shared Tuklas components are the single source of styling for all consumers.
-Material 3 semantic roles and Tuklas spacing/shapes/typography supply tokens.
-Feature-specific cards stay in Discover rather than introducing business
-dependencies into designsystem.
-
-Debug bottom navigation adds the in-app Gallery through a source-set hook.
-Release supplies a hook with no tab or route and has no Gallery class references.
-The Gallery uses local Light/Dark/System and snackbar state, not a ViewModel.
-Previews and fictional fixtures/resources live in debug source sets; preview
-functions wrap production Screens in TuklasTheme and need no app initialization.
-Photo credits remain alongside debug resources.
-
-Known limitations and setup live in README.md; this document describes ownership,
-not a claim that planned screens or live services have been implemented.
+Feature package convention: :app owns feature packages with no presentation/ level. Keep Route, Screen, ViewModel, UiState and Intent together; optional Effect, component/, preview/, model/ or mapper/ organization must be justified. Domain and data stay application-level. Only code used by multiple screen flows belongs in feature/discover/shared. Preserve previewability, use-case boundaries, Koin composition, centralized navigation and design-system reuse. Validate once with :app:assembleDebug; target tests to changed business logic, avoiding broad suites, lint, instrumentation and release builds unless explicitly requested.

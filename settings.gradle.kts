@@ -24,5 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TuklasTayo"
 include(":app")
- include(":core:domain", ":core:data-firebase", ":core:data-mock", ":core:designsystem")
-include(":feature:discover", ":feature:explore", ":feature:place-detail")
+include(":core:designsystem")

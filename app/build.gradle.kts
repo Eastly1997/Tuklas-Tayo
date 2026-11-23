@@ -40,13 +40,7 @@ android {
     }
 }
 dependencies {
-    implementation(project(":core:domain"))
-    implementation(project(":core:data-mock"))
-    implementation(project(":core:data-firebase"))
     implementation(project(":core:designsystem"))
-    implementation(project(":feature:discover"))
-    implementation(project(":feature:explore"))
-    implementation(project(":feature:place-detail"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
@@ -65,5 +59,11 @@ dependencies {
     debugImplementation(libs.compose.ui.test.manifest)
     debugImplementation(libs.compose.ui.tooling.preview)
     debugImplementation(libs.compose.ui.tooling)
-    debugImplementation(libs.coroutines.android)
+    implementation(libs.coroutines.android)
+    implementation(libs.coroutines.play.services)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.koin.compose)
+    testImplementation(libs.junit)
+    testImplementation(libs.coroutines.test)
 }

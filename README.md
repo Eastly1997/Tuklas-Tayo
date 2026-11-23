@@ -9,25 +9,21 @@ no verified business database is bundled.
 
 Implemented:
 - Single Activity with Navigation Compose. Debug tabs: Discover, Saved, Debug.
-  Release tabs: Discover and Saved. Explore and Place Detail are nested routes.
-- Discover loading/error/retry, local search over the loaded featured-place list,
-  Featured Shops photo carousel, and existing Explore Shops rows.
+  Release tabs: Discover and Saved. Search and Place Detail are nested routes; Search hides bottom navigation.
+- Discover loading/error/retry, a dedicated Search route over the loaded featured-place list,
+  centered Featured Shops photo carousel, and existing Explore Shops rows.
 - Photo cards with bottom gradients, category/city metadata, optional highlights,
   and ID callbacks to the existing detail placeholder.
 - Shared Tuklas theme, buttons, cards, chips, text fields, image loading/fallbacks,
   debug Component Gallery and production-screen previews.
 - Optional Firestore repository and pure Kotlin mock repository behind one contract.
 
-Saved, Explore and Place Detail are placeholders. Authentication, maps, device
+Saved and Place Detail are placeholders. Authentication, maps, device
 location, uploads, storage and production synchronization are not implemented.
-Search is not a complete business-catalog search. Firebase live connectivity has
+Search is not a complete business-catalog search. Discover uses a non-editable search trigger; the Search route owns query/results in a SavedStateHandle-backed ViewModel. Its bottom input consumes remaining IME insets inside the app Scaffold, with no custom Back interception. The initial focus request is saved per navigation entry to avoid reopening the keyboard after Details or intentional dismissal. Firebase live connectivity has
 not been verified.
 
-Known follow-up: debug fixture photo URIs use drawable names, while Coil 3.3's
-resource fetcher expects numeric resource IDs. Discover may show fallbacks for
-those samples. Gallery previews supply resource IDs directly. This cleanup does
-not change image loading or backend behavior. Device rendering and accessibility
-still require manual verification.
+Debug fixtures use numeric drawable resource IDs in local image URIs. Gallery previews also supply resource IDs directly. Device rendering and accessibility still require manual verification.
 
 ## Technology
 
@@ -41,26 +37,19 @@ still require manual verification.
 - JUnit 4, coroutine tests and Compose UI instrumentation test sources
 
 Pinned versions are in gradle/libs.versions.toml; no claim of latest versions.
-The application ID/root package is com.lakbay.tuklas. App code namespace is
+The application ID/root package is com.lakbay.tuklas. App generated-code namespace is
 com.lakbay.tuklas.app. Branded code uses Tuklas; product branding stays TuklasTayo.
 
 ## Modules and architecture
 
 | Module | Responsibility |
 | --- | --- |
-| :app | MainActivity, Koin startup, navigation, backend selection, Saved placeholder, debug Gallery and fixtures |
-| :core:domain | Pure Kotlin Place model, repository interface and use cases |
-| :core:data-mock | Pure Kotlin in-memory repository; empty unless fixtures are injected |
-| :core:data-firebase | Firestore DTOs, mapping and repository implementation |
-| :core:designsystem | Material 3 theme/tokens, shared components, Coil image UI and component previews |
-| :feature:discover | MVI state, route/screen, UI models/mappers and shop-specific components |
-| :feature:explore | Previewable placeholder screen and route |
-| :feature:place-detail | Previewable placeholder screen and route receiving an ID |
+| :app | Application entry points, navigation/Koin, domain, Firebase/mock data, feature presentation, previews/tests and debug Gallery |
+| :core:designsystem | Material 3 theme/tokens and reusable production components |
 
 Flow: Route -> Screen -> ViewModel intents -> UseCase -> Repository interface ->
 data implementation. Screens render state; routes connect runtime dependencies
-and callbacks. App assembles Koin modules. Features never depend on concrete data
-modules; domain never depends on Android, Firebase, Compose or Koin.
+and callbacks. App assembles Koin modules. Feature presentation never imports concrete data implementations; domain never depends on Android, Firebase, Compose or Koin.
 
 See docs/ARCHITECTURE.md for boundaries and docs/DEVELOPMENT.md for conventions.
 
@@ -123,9 +112,18 @@ production Featured Shop components. Light/Dark/System selection is local UI sta
 Release hooks register neither the Debug tab nor destination; Gallery code,
 fixtures, photos and preview tooling are debug-only.
 
+FeaturedShopsSection / FeaturedShopsCarousel accept autoScrollEnabled (default true)
+and autoScrollIntervalMillis (default 6000). Cards use viewport minus 48dp (600dp
+maximum), centered snapping, and 12dp spacing. Forward advancement animates for
+450ms; last-to-first resets directly. A heading accessibility action pauses/resumes without a visible button. Timers
+stop on touch/drag/fling, non-resumed lifecycle, off-screen composition/visibility,
+and disabled system motion. Countdown restarts on reactivation/settling.
+Discover hoists saveable carousel position, selected shop ID and pause state.
+Static Gallery examples disable autoplay; one interactive example enables it.
+
 Screen previews use actual production Screens in TuklasTheme without Koin,
 Firebase or ViewModels. Discover covers loading/content/empty/error/search.
-Saved, Explore, Place Detail and Gallery have light/dark previews. Featured-card
+Saved, Place Detail and Gallery have light/dark previews. Featured-card
 examples include long/missing text, image fallback and increased font scale.
 Select the debug variant and render *ScreenPreview.kt / card previews manually.
 Stock photograph sources are recorded in app/src/debug/PHOTO_CREDITS.md.
@@ -135,12 +133,12 @@ Stock photograph sources are recorded in app/src/debug/PHOTO_CREDITS.md.
 Choose only checks relevant to the change; these are examples, not a full suite:
 
 ```powershell
-.\gradlew.bat :feature:discover:compileDebugKotlin
-.\gradlew.bat :feature:discover:testDebugUnitTest --tests '*DiscoverViewModelTest'
-.\gradlew.bat :feature:discover:testDebugUnitTest --tests '*FeaturedShopMapperTest'
-.\gradlew.bat :core:data-firebase:testDebugUnitTest --tests '*PlaceDtoTest'
-.\gradlew.bat :core:data-mock:test --tests '*MockPlaceRepositoryTest'
-.\gradlew.bat :core:domain:test --tests '*PlaceUseCasesTest'
+.\gradlew.bat :app:compileDebugKotlin
+.\gradlew.bat :app:testDebugUnitTest --tests '*ExploreViewModelTest'
+.\gradlew.bat :app:testDebugUnitTest --tests '*FeaturedShopMapperTest'
+.\gradlew.bat :app:testDebugUnitTest --tests '*PlaceDtoTest'
+.\gradlew.bat :app:testDebugUnitTest --tests '*MockPlaceRepositoryTest'
+.\gradlew.bat :app:testDebugUnitTest --tests '*PlaceUseCasesTest'
 ```
 
 Unit tests cover use cases, DTO/presentation mapping, mock behavior and Discover
@@ -155,7 +153,7 @@ older milestone reports are historical evidence, not current test results.
 ## Contributions and repository preparation
 
 Follow AGENTS.md, docs/DEVELOPMENT.md and the existing .agents/skills workflows.
-Keep changes scoped, preserve module names, use semantic theme tokens and reuse
+Keep changes scoped, preserve the two-module structure, use semantic theme tokens and reuse
 production components. No unrelated refactors, dependency upgrades or features.
 
 .gitignore excludes caches/build output, IDE/local SDK state and common credential
@@ -163,7 +161,18 @@ files while retaining wrapper scripts/JAR, source/resources/tests, Gradle config
 docs and project-local skills. Ignore rules are not a secret scanner: inspect the
 candidate diff before any approved initial commit.
 
-No Git repository was initialized by this cleanup. Do not initialize, stage,
+Git history is preserved. Do not initialize, stage,
 commit, configure remotes or push without explicit approval. MILESTONE_02_REPORT.txt
 is retained as a historical record; its obsolete paths/names are not active
 instructions. Local absolute project paths in that report were sanitized.
+Dedicated Search reuses the same local matching helper and GetFeaturedPlacesUseCase
+as the existing Discover list. No full-catalog API or structured specialty/food
+keyword fields currently exist; none are fabricated. The existing inline rows
+were consolidated into one production ExploreShopCard, shared by Discover and
+Search, showing the provided image/name/category/city/highlight.
+The app shell owns Search Places / Back chrome; SearchScreen owns the results and
+bottom input. Actual IME movement, system Back, TalkBack and focus restoration
+require manual device verification. Previews remain offline/debug-only.
+Navigation follows MainActivity -> TuklasApp -> TuklasNavHost -> FeatureRoute -> FeatureScreen. TuklasApp owns the shared Scaffold, toolbar, bottom navigation and insets, using one NavController. TuklasNavHost owns destination declarations and feature navigation callbacks; TuklasDestination centralizes production routes (the debug route stays debug-only). Discover displays feature.discover.explore.ExploreRoute. No separate legacy Explore feature or destination remains. Preserve Route/Screen separation, tab state restoration, Search keyboard/back handling, debug exclusion from release, and shared production components in :core:designsystem. Do not introduce feature Gradle modules or generic navigation managers.
+
+Feature package convention: :app owns feature packages with no presentation/ level. Keep Route, Screen, ViewModel, UiState and Intent together; optional Effect, component/, preview/, model/ or mapper/ organization must be justified. Domain and data stay application-level. Only code used by multiple screen flows belongs in feature/discover/shared. Preserve previewability, use-case boundaries, Koin composition, centralized navigation and design-system reuse. Validate once with :app:assembleDebug; target tests to changed business logic, avoiding broad suites, lint, instrumentation and release builds unless explicitly requested.

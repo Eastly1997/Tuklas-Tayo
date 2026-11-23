@@ -1,5 +1,8 @@
 package com.lakbay.tuklas.core.designsystem.component
 
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.InputChip
@@ -10,7 +13,7 @@ import androidx.compose.ui.Modifier
 /** Selection is available only for the two Material chip types that support it. */
 sealed interface TuklasChipType {
     data object Assist : TuklasChipType
-    data class Filter(val selected: Boolean) : TuklasChipType
+    data class Filter(val selected: Boolean, val emphasized: Boolean = false) : TuklasChipType
     data class Input(val selected: Boolean) : TuklasChipType
     data object Suggestion : TuklasChipType
 }
@@ -32,6 +35,15 @@ fun TuklasChip(
         is TuklasChipType.Filter -> FilterChip(
             selected = type.selected, onClick = onClick, label = label,
             modifier = modifier, enabled = enabled, leadingIcon = leadingIcon,
+            shape = if (type.emphasized) CircleShape else FilterChipDefaults.shape,
+            colors = if (type.emphasized) FilterChipDefaults.filterChipColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                labelColor = MaterialTheme.colorScheme.onSurface,
+                selectedContainerColor = MaterialTheme.colorScheme.primary,
+                selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                selectedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
+                selectedTrailingIconColor = MaterialTheme.colorScheme.onPrimary,
+            ) else FilterChipDefaults.filterChipColors(),
         )
         is TuklasChipType.Input -> InputChip(
             selected = type.selected, onClick = onClick, label = label,

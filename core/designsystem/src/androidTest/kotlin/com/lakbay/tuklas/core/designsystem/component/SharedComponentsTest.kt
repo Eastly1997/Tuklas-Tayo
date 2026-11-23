@@ -108,7 +108,9 @@ class SharedComponentsTest {
             }
         }
         TuklasTextFieldVariant.entries.forEach { variant ->
-            compose.onNodeWithTag(variant.name).performTextInput("Illustrative input").assertTextContains("Illustrative input")
+            val field = compose.onNodeWithTag(variant.name)
+            field.performTextInput("Illustrative input")
+            field.assertTextContains("Illustrative input")
         }
         compose.onNodeWithTag("error").assert(SemanticsMatcher.keyIsDefined(SemanticsProperties.Error))
         compose.onNodeWithTag("disabled").assertIsNotEnabled()
