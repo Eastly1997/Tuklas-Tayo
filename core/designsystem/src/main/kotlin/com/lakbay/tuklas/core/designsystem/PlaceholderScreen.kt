@@ -1,5 +1,9 @@
 package com.lakbay.tuklas.core.designsystem
 
+import com.lakbay.tuklas.core.designsystem.R
+
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +23,6 @@ fun PlaceholderScreen(title: String, message: String, onBack: () -> Unit) {
     ) {
         Text(title, style = MaterialTheme.typography.headlineMedium)
         Text(message)
-        TuklasButton(onClick = onBack) { Text("Back") }
+        TuklasButton(onClick = onBack) { Text(stringResource(R.string.action_back)) }
     }
 }

@@ -5,4 +5,13 @@
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowBackground">#FFFFFF</item>
     </style>
+    <style name="Theme.Tuklas.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/tuklastayo_splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/tuklastayo_splash_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.Tuklas</item>
+        <item name="android:statusBarColor">@color/tuklastayo_splash_background</item>
+        <item name="android:navigationBarColor">@color/tuklastayo_splash_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
 </resources>

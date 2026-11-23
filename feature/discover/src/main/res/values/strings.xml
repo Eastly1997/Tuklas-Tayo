@@ -1,0 +1,45 @@
+<resources>
+    <string name="navigation_discover">Discover</string>
+    <string name="navigation_saved">Saved</string>
+    <string name="saved_placeholder">Saved places will appear here in a future milestone.</string>
+    <string name="navigation_profile">Profile</string>
+    <string name="profile_guest_title">Browsing as Guest</string>
+    <string name="profile_guest_description">Sign in to access your account and manage your restaurants.</string>
+    <string name="profile_sign_in">Sign In</string>
+    <string name="profile_sign_out">Sign Out</string>
+    <string name="profile_signing_out">Signing out…</string>
+    <string name="profile_restoring_session">Restoring your session…</string>
+    <string name="profile_business_title">Own a local business?</string>
+    <string name="profile_business_description">Sign in to access restaurant management after ownership verification.</string>
+    <string name="profile_account_information">ACCOUNT INFORMATION</string>
+    <string name="profile_name">Name</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_details_unavailable">Account details aren\'t available.</string>
+    <string name="profile_account_fallback">Your account</string>
+    <string name="search_title">Search Places</string>
+    <string name="search_prompt_title">What are you looking for?</string>
+    <string name="search_prompt_description">Search restaurants, cafés, and local places.</string>
+    <string name="places_load_error">We couldn\'t load places. Please try again.</string>
+    <string name="places_retry">Retry</string>
+    <string name="search_no_results">No shops found</string>
+    <string name="explore_no_results">No shops found.</string>
+    <string name="explore_title">Explore Shops</string>
+    <string name="explore_all">All</string>
+    <string name="featured_title">Featured Shops</string>
+    <string name="featured_paused">Automatic advancement paused</string>
+    <string name="featured_enabled">Automatic advancement enabled</string>
+    <string name="featured_resume">Resume automatic featured shops</string>
+    <string name="featured_pause">Pause automatic featured shops</string>
+    <string name="place_open">Open %1$s</string>
+    <string name="place_detail_title">Place Detail</string>
+    <string name="place_detail_placeholder">Selected place: %1$s\nDetails are planned for a later milestone.</string>
+    <string name="category_cafe">Café</string>
+    <string name="category_restaurant">Restaurant</string>
+    <string name="category_local_business">Local business</string>
+    <string name="announcement_welcome_title">Welcome to TuklasTayo!</string>
+    <string name="announcement_welcome_message">Discover local favorites around Malolos.</string>
+    <plurals name="explore_place_count">
+        <item quantity="one">%1$d place</item>
+        <item quantity="other">%1$d places</item>
+    </plurals>
+</resources>

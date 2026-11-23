@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">TuklasTayo</string>
-    <string name="navigation_discover">Discover</string>
-    <string name="navigation_saved">Saved</string>
-    <string name="saved_placeholder">Saved places will appear here in a future milestone.</string>
+    <string name="login_title">Sign In</string>
+    <string name="login_welcome_title">Welcome to TuklasTayo</string>
+    <string name="login_description">Sign in to access your account and manage your restaurants.</string>
+    <string name="login_not_configured">Google sign-in isn\'t configured on this build.</string>
+    <string name="login_google_button">Sign in with Google</string>
+    <string name="login_logo_description">TuklasTayo logo</string>
+    <string name="auth_error_restore">Unable to restore your session. You can continue as a guest.</string>
+    <string name="auth_error_configuration">Google sign-in needs updated Firebase/OAuth configuration. You can continue as a guest.</string>
+    <string name="auth_error_no_credentials">No Google account is available. Add an account on your device and try again.</string>
+    <string name="auth_error_unsupported">Google sign-in isn\'t supported by this credential provider.</string>
+    <string name="auth_error_invalid_token">Couldn\'t read the Google sign-in response. Please try again.</string>
+    <string name="auth_error_firebase">Google sign-in couldn\'t be completed by Firebase. Please try again.</string>
+    <string name="auth_error_sign_in">Couldn\'t sign in. Please try again.</string>
+    <string name="auth_error_cleanup">You\'re signed out, but Google credential cleanup couldn\'t finish. You can try signing in again.</string>
+    <string name="auth_error_sign_out">Couldn\'t finish signing out. Please try again.</string>
 </resources>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="action_back">Back</string>
+    <string name="search_placeholder">Search shops or places</string>
+    <string name="search_clear">Clear search</string>
+</resources>

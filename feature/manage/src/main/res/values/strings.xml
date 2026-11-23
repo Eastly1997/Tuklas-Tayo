@@ -1,0 +1,5 @@
+<resources>
+    <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_management_title">Restaurant management</string>
+    <string name="dashboard_placeholder">Restaurant, menu and queue management are not available yet.</string>
+</resources>
