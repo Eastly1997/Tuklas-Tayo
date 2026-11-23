@@ -1,3 +1,3 @@
-package com.lakbay.tuklas.feature.discover.presentation.saved
+package com.lakbay.tuklas.feature.discover.saved
 
 data class SavedUiState(val title: String, val message: String)

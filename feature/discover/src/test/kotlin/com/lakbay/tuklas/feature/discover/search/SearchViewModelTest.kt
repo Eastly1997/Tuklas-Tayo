@@ -4,9 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import com.lakbay.tuklas.feature.discover.domain.model.*
 import com.lakbay.tuklas.feature.discover.domain.repository.*
 import com.lakbay.tuklas.feature.discover.domain.usecase.*
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchIntent
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchUiState
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchViewModel
+import com.lakbay.tuklas.feature.discover.search.SearchIntent
+import com.lakbay.tuklas.feature.discover.search.SearchUiState
+import com.lakbay.tuklas.feature.discover.search.SearchViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
 import org.junit.After

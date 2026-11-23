@@ -9,8 +9,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.lakbay.tuklas.core.designsystem.theme.TuklasTheme
 import com.lakbay.tuklas.feature.discover.domain.model.Place
 import com.lakbay.tuklas.feature.discover.domain.model.PlaceCategory
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchScreen
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchUiState
+import com.lakbay.tuklas.feature.discover.search.SearchScreen
+import com.lakbay.tuklas.feature.discover.search.SearchUiState
 
 internal class SearchPreviewData : PreviewParameterProvider<SearchUiState> {
     override val values = sequenceOf(

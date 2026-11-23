@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.lakbay.tuklas.feature.discover.R
-import com.lakbay.tuklas.feature.discover.presentation.saved.SavedScreen
-import com.lakbay.tuklas.feature.discover.presentation.saved.SavedUiState
+import com.lakbay.tuklas.feature.discover.saved.SavedScreen
+import com.lakbay.tuklas.feature.discover.saved.SavedUiState
 import com.lakbay.tuklas.core.designsystem.theme.TuklasTheme
 
 @Preview(name = "Saved Light", showBackground = true, widthDp = 400, heightDp = 800,

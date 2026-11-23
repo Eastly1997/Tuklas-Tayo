@@ -1,4 +1,4 @@
-package com.lakbay.tuklas.feature.discover.presentation.search
+package com.lakbay.tuklas.feature.discover.search
 
 import com.lakbay.tuklas.feature.discover.R
 

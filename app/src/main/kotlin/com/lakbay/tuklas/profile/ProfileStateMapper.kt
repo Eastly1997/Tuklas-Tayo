@@ -1,8 +1,8 @@
 package com.lakbay.tuklas.profile
 
 import com.lakbay.tuklas.auth.login.LoginUiState
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileAccount
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileUiState
+import com.lakbay.tuklas.feature.discover.profile.ProfileAccount
+import com.lakbay.tuklas.feature.discover.profile.ProfileUiState
 
 /** No app auth type crosses into Discover; this is a derived immutable UI value, not a new session store. */
 internal fun LoginUiState.toProfileUiState(errorMessage: String? = null) = ProfileUiState(

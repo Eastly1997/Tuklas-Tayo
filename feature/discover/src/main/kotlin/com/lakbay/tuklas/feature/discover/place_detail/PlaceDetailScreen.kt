@@ -1,4 +1,4 @@
-package com.lakbay.tuklas.feature.discover.presentation.place_detail
+package com.lakbay.tuklas.feature.discover.place_detail
 
 import com.lakbay.tuklas.feature.discover.R
 

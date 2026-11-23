@@ -6,9 +6,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.lakbay.tuklas.core.designsystem.theme.TuklasTheme
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileAccount
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileScreen
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileUiState
+import com.lakbay.tuklas.feature.discover.profile.ProfileAccount
+import com.lakbay.tuklas.feature.discover.profile.ProfileScreen
+import com.lakbay.tuklas.feature.discover.profile.ProfileUiState
 
 internal class ProfilePreviewData : PreviewParameterProvider<ProfileUiState> {
     override val values = sequenceOf(

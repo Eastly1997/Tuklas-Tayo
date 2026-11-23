@@ -6,9 +6,9 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import com.lakbay.tuklas.core.designsystem.theme.TuklasTheme
 import com.lakbay.tuklas.feature.discover.domain.model.Place
 import com.lakbay.tuklas.feature.discover.domain.model.PlaceCategory
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchIntent
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchScreen
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchUiState
+import com.lakbay.tuklas.feature.discover.search.SearchIntent
+import com.lakbay.tuklas.feature.discover.search.SearchScreen
+import com.lakbay.tuklas.feature.discover.search.SearchUiState
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

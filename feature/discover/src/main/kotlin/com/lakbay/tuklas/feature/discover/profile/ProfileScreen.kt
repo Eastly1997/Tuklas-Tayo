@@ -1,4 +1,4 @@
-package com.lakbay.tuklas.feature.discover.presentation.profile
+package com.lakbay.tuklas.feature.discover.profile
 
 import androidx.compose.ui.res.stringResource
 

@@ -1,4 +1,4 @@
-package com.lakbay.tuklas.feature.discover.presentation.search
+package com.lakbay.tuklas.feature.discover.search
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

@@ -5,9 +5,9 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.lakbay.tuklas.core.designsystem.theme.TuklasTheme
 import com.lakbay.tuklas.feature.discover.navigation.DiscoverApp
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileAccount
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileScreen
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileUiState
+import com.lakbay.tuklas.feature.discover.profile.ProfileAccount
+import com.lakbay.tuklas.feature.discover.profile.ProfileScreen
+import com.lakbay.tuklas.feature.discover.profile.ProfileUiState
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.lakbay.tuklas.feature.discover.presentation.profile
+package com.lakbay.tuklas.feature.discover.profile
 
 data class ProfileAccount(val displayName: String?, val email: String? = null, val photoUrl: String? = null)
 

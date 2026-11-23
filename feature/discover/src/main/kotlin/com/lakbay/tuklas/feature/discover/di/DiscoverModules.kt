@@ -8,7 +8,7 @@ import com.lakbay.tuklas.feature.discover.domain.usecase.GetPlaceByIdUseCase
 import com.lakbay.tuklas.feature.discover.domain.repository.PlaceRepository
 import com.lakbay.tuklas.feature.discover.explore.AnnouncementUiModel
 import com.lakbay.tuklas.feature.discover.explore.ExploreViewModel
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchViewModel
+import com.lakbay.tuklas.feature.discover.search.SearchViewModel
 import org.koin.core.module.dsl.viewModel
 import com.lakbay.tuklas.feature.discover.development.developmentPlaces
 import org.koin.dsl.module

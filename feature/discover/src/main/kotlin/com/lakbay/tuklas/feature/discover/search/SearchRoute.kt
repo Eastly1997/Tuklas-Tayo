@@ -1,4 +1,4 @@
-package com.lakbay.tuklas.feature.discover.presentation.search
+package com.lakbay.tuklas.feature.discover.search
 
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable

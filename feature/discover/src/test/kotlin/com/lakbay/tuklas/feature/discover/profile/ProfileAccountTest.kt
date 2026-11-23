@@ -1,9 +1,9 @@
 package com.lakbay.tuklas.feature.discover.profile
 
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileAccount
-import com.lakbay.tuklas.feature.discover.presentation.profile.profileEmail
-import com.lakbay.tuklas.feature.discover.presentation.profile.profileName
-import com.lakbay.tuklas.feature.discover.presentation.profile.profilePhoto
+import com.lakbay.tuklas.feature.discover.profile.ProfileAccount
+import com.lakbay.tuklas.feature.discover.profile.profileEmail
+import com.lakbay.tuklas.feature.discover.profile.profileName
+import com.lakbay.tuklas.feature.discover.profile.profilePhoto
 import org.junit.Assert.*
 import org.junit.Test
 

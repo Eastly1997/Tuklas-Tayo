@@ -1,4 +1,4 @@
-package com.lakbay.tuklas.feature.discover.presentation.saved
+package com.lakbay.tuklas.feature.discover.saved
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource

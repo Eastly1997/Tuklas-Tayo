@@ -26,7 +26,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.lakbay.tuklas.feature.discover.R
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileUiState
+import com.lakbay.tuklas.feature.discover.profile.ProfileUiState
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

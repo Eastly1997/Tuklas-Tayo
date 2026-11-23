@@ -1,8 +1,8 @@
 package com.lakbay.tuklas.feature.discover.navigation
 
 import androidx.compose.runtime.Composable
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileUiState
-import com.lakbay.tuklas.feature.discover.presentation.profile.ProfileScreen
+import com.lakbay.tuklas.feature.discover.profile.ProfileUiState
+import com.lakbay.tuklas.feature.discover.profile.ProfileScreen
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -12,9 +12,9 @@ import androidx.navigation.navArgument
 
 
 import com.lakbay.tuklas.feature.discover.explore.ExploreRoute
-import com.lakbay.tuklas.feature.discover.presentation.search.SearchRoute
-import com.lakbay.tuklas.feature.discover.presentation.saved.SavedRoute
-import com.lakbay.tuklas.feature.discover.presentation.place_detail.PlaceDetailRoute
+import com.lakbay.tuklas.feature.discover.search.SearchRoute
+import com.lakbay.tuklas.feature.discover.saved.SavedRoute
+import com.lakbay.tuklas.feature.discover.place_detail.PlaceDetailRoute
 
 @Composable
 internal fun DiscoverNavHost(navController: NavHostController, modifier: Modifier = Modifier, developmentNotice: String? = null, profileState: ProfileUiState, onSignInClick: () -> Unit, onSignOutClick: () -> Unit) {
