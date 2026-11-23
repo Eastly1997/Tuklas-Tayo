@@ -1,5 +1,7 @@
 package com.lakbay.tuklas.core.designsystem.component
 
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -67,7 +69,7 @@ fun TuklasSearchField(
                     onClick = { if (onClear != null) onClear() else onQueryChange("") },
                     enabled = enabled,
                 ) {
-                    Icon(painterResource(R.drawable.ic_clear), contentDescription = "Clear search",
+                    Icon(painterResource(R.drawable.ic_clear), contentDescription = stringResource(R.string.search_clear),
                         modifier = Modifier.size(TuklasSearchDefaults.iconSize))
                 }
             }

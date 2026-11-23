@@ -25,3 +25,5 @@ dependencyResolutionManagement {
 rootProject.name = "TuklasTayo"
 include(":app")
 include(":core:designsystem")
+
+include(":feature:discover", ":feature:manage")
